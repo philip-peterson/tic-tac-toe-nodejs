@@ -1,5 +1,6 @@
-const tictactoe = require("./index");
+const { Game } = require("./index");
 
-test("adds 1 + 2 to equal 3", () => {
-  expect(1 + 2).toBe(3);
+test("Game lifecycle should be reasonable", () => {
+  const game = new Game();
+  expect(game.getWinner()).toBe(null);
 });

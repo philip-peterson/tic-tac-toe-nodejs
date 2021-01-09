@@ -15,7 +15,7 @@ type Point = [0 | 1 | 2, 0 | 1 | 2];
 /// Encapsulates the state of the game, allowing
 /// input and stepping to be separate from the business
 /// logic and rules of play.
-class Game {
+export class Game {
   // Player X goes first
   // Represents the current player
   turn = "X";
@@ -182,4 +182,6 @@ const main = () => {
   while (true) {}
 };
 
-main();
+if (require.main === module) {
+  main();
+}
