@@ -24,7 +24,7 @@ class Game {
         [null,null,null],
     ];
 
-    isValidMove(Move move) {
+    isValidMove(move: Move) {
 
     }
 
@@ -38,7 +38,7 @@ class Game {
 /// Class to encapsulate the logic of accepting, parsing,
 /// and validating user input
 class Ui {
-    static promptInput(Game game) {
+    static promptInput(game: Game) {
 
     }
 }
