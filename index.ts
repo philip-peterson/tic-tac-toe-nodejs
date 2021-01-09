@@ -1,5 +1,4 @@
 const readlineSync = require('readline-sync');
-const process = require('process');
 
 type Player = 'X' | 'O';
 
@@ -25,15 +24,31 @@ class Game {
     ];
 
     isValidMove(move: Move) {
-
+        if (move.row > 2 || move.row < 0) {
+            return false;
+        }
+        if (move.column > 2 || move.column < 0) {
+            return false;
+        }
+        if (move.player !== this.turn) {
+            return false;
+        }
+        if (this.boardState[move.row][move.column] !== null) {
+            return false;
+        }
+        return true;
     }
 
-    makeMove() {
+    makeMove(move: Move) {
         if (!this.isValidMove(move)) {
             throw new Error("Move not allowed");
         }
     }
 }
+
+class MoveInputError extends Error {}
+
+const integerRegex = /^\d+$/;
 
 /// Class to encapsulate the logic of accepting, parsing,
 /// and validating user input
@@ -41,8 +56,17 @@ class Ui {
     static promptInput(game: Game) {
         console.info(`game: Player ${game.turn} - enter row column.`);
         console.info('');
-        console.info('>> ');
         const input = readlineSync.question('>> ');
+        const inputTokenized = input.split(/\s+/).filter(partition => partition !== '');
+        if (inputTokenized.length !== 2) {
+            throw new MoveInputError("Must provide 2 arguments");
+        }
+        if (!inputTokenized.some(arg => integerRegex.test(arg)) {
+            throw new MoveInputError("Arguments must be integers");
+        }
+        const row = Number.parseInt(inputTokenized[0]);
+        const column = Number.parseInt(inputTokenized[1]);
+        return { player: game.turn, row, column };
     }
 }
 
@@ -59,3 +83,5 @@ const main = () => {
         }
     }
 }
+
+main();
