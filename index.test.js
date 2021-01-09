@@ -16,3 +16,25 @@ test("Game lifecycle should be reasonable", () => {
   game.makeMove({ row: 1, column: 1, player: "X" });
   expect(game.getWinner()).toBe("X");
 });
+
+describe("Parse user input", () => {
+  it("Should handle positive input", () => {
+    const game = new Game();
+    expect(Ui.parseMove(game, "0 1")).toStrictEqual({
+      row: 0,
+      column: 1,
+      player: "X",
+    });
+    expect(Ui.parseMove(game, "1 2")).toStrictEqual({
+      row: 1,
+      column: 2,
+      player: "X",
+    });
+  });
+  it("Should report out of bounds", () => {
+    const game = new Game();
+    expect(() => {
+      Ui.parseMove(game, "-1 1");
+    }).toThrow();
+  });
+});
