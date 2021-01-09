@@ -1,4 +1,4 @@
-const readline = require('readline');
+const readlineSync = require('readline-sync');
 const process = require('process');
 
 type Player = 'X' | 'O';
@@ -39,16 +39,15 @@ class Game {
 /// and validating user input
 class Ui {
     static promptInput(game: Game) {
-
+        console.info(`game: Player ${game.turn} - enter row column.`);
+        console.info('');
+        console.info('>> ');
+        const input = readlineSync.question('>> ');
     }
 }
 
 const main = () => {
     const game = new Game();
-    const ioInterface = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
     while (true) {
         let move;
         try {
