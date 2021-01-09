@@ -5,6 +5,10 @@ test("Game lifecycle should be reasonable", () => {
   expect(game.getWinner()).toBe(null);
   expect(game.turn).toBe("X");
   game.makeMove({ row: 0, column: 0, player: "X" });
+  expect(() => {
+    // Should not be able to go in a taken space.
+    game.makeMove({ row: 0, column: 0, player: "O" });
+  }).toThrow();
   expect(game.getWinner()).toBe(null);
   expect(game.turn).toBe("O");
   game.makeMove({ row: 1, column: 0, player: "O" });
