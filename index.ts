@@ -57,6 +57,12 @@ class Ui {
     console.info(`game: Player ${game.turn} - enter row column.`);
     console.info("");
     const input = readlineSync.question(">> ");
+    return Ui.parseMove(game, input);
+  }
+
+  /// Takes raw user input and turns it into a move. The move may not
+  /// be valid. May throw if input is invalid.
+  static parseMove(game: Game, input: string) {
     const inputTokenized = input
       .split(/\s+/)
       .filter((partition) => partition !== "");
@@ -68,6 +74,12 @@ class Ui {
     }
     const row = Number.parseInt(inputTokenized[0]);
     const column = Number.parseInt(inputTokenized[1]);
+    if (row > 2 || row < 0) {
+      throw new MoveInputError("Row must be in range 0 - 2");
+    }
+    if (column > 2 || column < 0) {
+      throw new MoveInputError("Column must be in range 0 - 2");
+    }
     return { player: game.turn, row, column };
   }
 }
