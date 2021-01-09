@@ -9,6 +9,9 @@ class Move {
   column: 0 | 1 | 2;
 }
 
+/// A single point on the grid
+type Point = [0 | 1 | 2, 0 | 1 | 2];
+
 /// Encapsulates the state of the game, allowing
 /// input and stepping to be separate from the business
 /// logic and rules of play.
@@ -17,7 +20,11 @@ class Game {
   // Represents the current player
   turn = "X";
 
-  boardState = [
+  boardState: [
+    [Player | null, Player | null, Player | null],
+    [Player | null, Player | null, Player | null],
+    [Player | null, Player | null, Player | null]
+  ] = [
     [null, null, null],
     [null, null, null],
     [null, null, null],
@@ -37,6 +44,17 @@ class Game {
       return false;
     }
     return true;
+  }
+
+  hasStreak(coord1: Point, coord2: Point, coord3: Point): Player | false {
+    const v1 = this.boardState[coord1[0]][coord1[1]];
+    const v2 = this.boardState[coord3[0]][coord2[1]];
+    const v3 = this.boardState[coord3[0]][coord3[1]];
+
+    if (v1 === v2 && v2 === v3 && v1 !== null) {
+      return v1;
+    }
+    return false;
   }
 
   printBoard() {
