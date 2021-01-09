@@ -86,6 +86,12 @@ describe("Parse user input", () => {
     expect(() => {
       Ui.parseMove(game, "e 1");
     }).toThrow();
+    expect(() => {
+      Ui.parseMove(game, "1 e");
+    }).toThrow();
+    expect(() => {
+      Ui.parseMove(game, "d e");
+    }).toThrow();
   });
 
   it("Should report wrong number of args", () => {
