@@ -120,7 +120,7 @@ const integerRegex = /^\d+$/;
 
 /// Class to encapsulate the logic of accepting, parsing,
 /// and validating user input
-class Ui {
+export class Ui {
   static promptInput(game: Game) {
     console.info(`game: Player ${game.turn} - enter row column.`);
     console.info("");
