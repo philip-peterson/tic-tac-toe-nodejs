@@ -57,6 +57,8 @@ export class Game {
     return false;
   }
 
+  // A winning game occurs when there is a streak of three,
+  // so we test for all possible streaks of three.
   getWinner() {
     const streaks = [
       // horizontal streaks
@@ -97,7 +99,9 @@ export class Game {
         if (col === 0) {
           process.stdout.write("|");
         }
-        process.stdout.write(`${this.boardState[row][col] || " "}`);
+        process.stdout.write(
+          `${(this.boardState[row][col] || " ").toLowerCase()}`
+        );
         process.stdout.write("|");
       }
       process.stdout.write("\n");
@@ -125,11 +129,12 @@ export class Ui {
     console.info(`game: Player ${game.turn} - enter row column.`);
     console.info("");
     const input = readlineSync.question(">> ");
+    console.info("");
     return Ui.parseMove(game, input);
   }
 
   static printWinner(winner: Player) {
-    console.info(`game: Player ${winner} wins!`);
+    console.info(`game: Player ${winner.toLowerCase()} wins!`);
   }
 
   static printCatsGame() {
@@ -164,6 +169,7 @@ const main = () => {
   const game = new Game();
   while (true) {
     game.printBoard();
+    console.info("");
 
     // Check for any ending conditions.
     const winner = game.getWinner();
@@ -190,6 +196,7 @@ const main = () => {
     if (!game.isValidMove(move)) {
       // TODO more explanatory error message here
       console.error("That move is not valid at the present time.");
+      console.error("");
       continue;
     }
 
