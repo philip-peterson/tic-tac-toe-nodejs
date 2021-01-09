@@ -12,7 +12,8 @@
     "typescript": "^4.1.3"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "run": "ts-node index.ts"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
