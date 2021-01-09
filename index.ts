@@ -61,7 +61,7 @@ class Ui {
         if (inputTokenized.length !== 2) {
             throw new MoveInputError("Must provide 2 arguments");
         }
-        if (!inputTokenized.some(arg => integerRegex.test(arg)) {
+        if (!inputTokenized.some(arg => integerRegex.test(arg))) {
             throw new MoveInputError("Arguments must be integers");
         }
         const row = Number.parseInt(inputTokenized[0]);
