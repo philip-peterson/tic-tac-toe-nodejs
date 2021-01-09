@@ -1,0 +1,7 @@
+{
+  "name": "tictactoe",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Philip Peterson <philip.c.peterson@gmail.com>",
+  "license": "MIT"
+}
