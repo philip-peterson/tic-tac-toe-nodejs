@@ -14,7 +14,8 @@
   },
   "scripts": {
     "test": "jest",
-    "run": "ts-node index.ts"
+    "run": "ts-node index.ts",
+    "format": "prettier --write index.ts index.test.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
