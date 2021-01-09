@@ -57,6 +57,36 @@ class Game {
     return false;
   }
 
+  getWinner() {
+    const streaks = [
+      // horizontal streaks
+      // i.e. ooo
+      this.hasStreak([0, 0], [0, 1], [0, 2]),
+      this.hasStreak([1, 0], [1, 1], [1, 2]),
+      this.hasStreak([2, 0], [2, 1], [2, 2]),
+
+      // vertical streaks
+      // o
+      // o
+      // o
+      this.hasStreak([0, 0], [1, 0], [2, 0]),
+      this.hasStreak([0, 1], [1, 1], [2, 1]),
+      this.hasStreak([0, 2], [1, 2], [2, 2]),
+
+      // diagonal streaks
+      // o
+      //   o
+      //     o
+      this.hasStreak([0, 0], [1, 1], [2, 2]),
+      this.hasStreak([0, 2], [1, 1], [2, 0]),
+    ];
+
+    if (streaks.every((streak) => streak === false)) {
+      return null;
+    }
+    return streaks.find((streak) => streak !== false);
+  }
+
   printBoard() {
     for (let row = 0; row <= 2; row++) {
       for (let col = 0; col <= 2; col++) {
@@ -74,6 +104,9 @@ class Game {
     if (!this.isValidMove(move)) {
       throw new Error("Move not allowed");
     }
+
+    this.boardState[move.row][move.column] = move.player;
+    this.turn = this.turn === "O" ? "X" : "O";
   }
 }
 
@@ -89,6 +122,10 @@ class Ui {
     console.info("");
     const input = readlineSync.question(">> ");
     return Ui.parseMove(game, input);
+  }
+
+  static printWinner(winner: Player) {
+    console.info(`game: Player ${winner} wins!`);
   }
 
   /// Takes raw user input and turns it into a move. The move may not
@@ -119,6 +156,11 @@ const main = () => {
   const game = new Game();
   while (true) {
     game.printBoard();
+    const winner = game.getWinner();
+    if (winner) {
+      Ui.printWinner(winner);
+      break;
+    }
     let move;
     try {
       move = Ui.promptInput(game);
@@ -132,8 +174,12 @@ const main = () => {
     if (!game.isValidMove(move)) {
       // TODO more explanatory error message here
       console.error("That move is not valid at the present time.");
+      continue;
     }
+    console.log(move);
+    game.makeMove(move);
   }
+  while (true) {}
 };
 
 main();
