@@ -91,9 +91,15 @@ const main = () => {
     try {
       move = Ui.promptInput(game);
     } catch (e) {
-      console.error(
-        `Invalid instruction. Must be two numbers from 0-2 separated by a space.`
-      );
+      console.error(`Invalid instruction. ${e.message}`);
+    }
+    if (!move) {
+      // prompt again, if there was an exception
+      continue;
+    }
+    if (!game.isValidMove(move)) {
+      // TODO more explanatory error message here
+      console.error("That move is not valid at the present time.");
     }
   }
 };
