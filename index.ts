@@ -48,7 +48,7 @@ export class Game {
 
   hasStreak(coord1: Point, coord2: Point, coord3: Point): Player | false {
     const v1 = this.boardState[coord1[0]][coord1[1]];
-    const v2 = this.boardState[coord3[0]][coord2[1]];
+    const v2 = this.boardState[coord2[0]][coord2[1]];
     const v3 = this.boardState[coord3[0]][coord3[1]];
 
     if (v1 === v2 && v2 === v3 && v1 !== null) {
@@ -85,6 +85,10 @@ export class Game {
       return null;
     }
     return streaks.find((streak) => streak !== false);
+  }
+
+  anyMovesLeft() {
+    return this.boardState.some((row) => row.some((col) => col === null));
   }
 
   printBoard() {
@@ -128,6 +132,10 @@ class Ui {
     console.info(`game: Player ${winner} wins!`);
   }
 
+  static printCatsGame() {
+    console.info(`game: Cat's game. Nobody wins!`);
+  }
+
   /// Takes raw user input and turns it into a move. The move may not
   /// be valid. May throw if input is invalid.
   static parseMove(game: Game, input: string) {
@@ -156,11 +164,19 @@ const main = () => {
   const game = new Game();
   while (true) {
     game.printBoard();
+
+    // Check for any ending conditions.
     const winner = game.getWinner();
     if (winner) {
       Ui.printWinner(winner);
       break;
     }
+    if (!game.anyMovesLeft()) {
+      Ui.printCatsGame();
+      break;
+    }
+
+    // Now try to collect a move from the player.
     let move;
     try {
       move = Ui.promptInput(game);
@@ -176,12 +192,15 @@ const main = () => {
       console.error("That move is not valid at the present time.");
       continue;
     }
-    console.log(move);
+
+    // If we've gotten here, there's nothing to stop the player
+    // from making a move.
     game.makeMove(move);
   }
   while (true) {}
 };
 
+// Only run main when not in a testing situation
 if (require.main === module) {
   main();
 }
