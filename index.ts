@@ -39,6 +39,19 @@ class Game {
     return true;
   }
 
+  printBoard() {
+    for (let row = 0; row <= 2; row++) {
+      for (let col = 0; col <= 2; col++) {
+        if (col === 0) {
+          process.stdout.write("|");
+        }
+        process.stdout.write(`${this.boardState[row][col] || " "}`);
+        process.stdout.write("|");
+      }
+      process.stdout.write("\n");
+    }
+  }
+
   makeMove(move: Move) {
     if (!this.isValidMove(move)) {
       throw new Error("Move not allowed");
@@ -87,6 +100,7 @@ class Ui {
 const main = () => {
   const game = new Game();
   while (true) {
+    game.printBoard();
     let move;
     try {
       move = Ui.promptInput(game);
